@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		{% if status %}
+		<p>Alert: <span style="color: blue">enabled</span></p>
+		{% else %}
+		<p>Alert: <span style="color: green">disabled</span></p>
+		{% endif %}
+		<p>
+			<a href="/mode/on">Enable</a>
+			<a href="/mode/off">Disable</a>
+		</p>
+		<p>
+			<a href="/alert">Alert</a>
+		</p>
+	</body>
+</html>

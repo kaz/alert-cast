@@ -1,0 +1,2 @@
+static/alert.flac filter=lfs diff=lfs merge=lfs -text
+static/alert.wav filter=lfs diff=lfs merge=lfs -text
