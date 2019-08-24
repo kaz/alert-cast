@@ -6,11 +6,11 @@ from flask import Flask, render_template, redirect
 app = Flask(__name__)
 device = None
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def index():
 	return render_template("index.html", status=device is not None)
 
-@app.route("/mode/<mode>")
+@app.route("/mode/<mode>", methods=["GET", "POST"])
 def mode(mode):
 	global device
 
@@ -23,7 +23,7 @@ def mode(mode):
 
 	return redirect("/")
 
-@app.route("/alert")
+@app.route("/alert", methods=["GET", "POST"])
 def alert():
 	if device is None:
 		return "alert is disabled"
