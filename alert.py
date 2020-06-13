@@ -6,6 +6,10 @@ from flask import Flask, render_template, redirect
 app = Flask(__name__)
 device = None
 
+port = 8080
+host = socket.gethostbyname(f"{socket.gethostname()}.local")
+media_url = f"http://{host}:{port}/static/alert.flac"
+
 @app.route("/", methods=["GET"])
 def index():
 	return render_template("index.html", status=device is not None)
@@ -14,7 +18,7 @@ def index():
 def mode(mode):
 	global device
 
-	if mode == "on":
+	if mode == "enable":
 		for cast in pychromecast.get_chromecasts():
 			if cast.model_name == "Google Home Mini":
 				device = cast
@@ -23,21 +27,22 @@ def mode(mode):
 
 	return redirect("/")
 
-@app.route("/alert", methods=["GET", "POST"])
-def alert():
+@app.route("/alert/<mode>", methods=["GET", "POST"])
+def alert(mode):
 	if device is None:
 		return "alert is disabled"
 
-	addr = socket.gethostbyname("%s.local" % socket.gethostname())
+	if mode == "start":
+		if not device.is_idle:
+			device.quit_app()
 
-	if not device.is_idle:
+		device.wait()
+		device.media_controller.play_media(media_url, "audio/flac")
+		device.media_controller.block_until_active()
+	else:
 		device.quit_app()
-
-	device.wait()
-	device.media_controller.play_media("http://%s:8080/static/alert.flac" % addr, "audio/flac")
-	device.media_controller.block_until_active()
 
 	return "ok"
 
 if __name__ == "__main__":
-	app.run(host="0.0.0.0", port=8080, threaded=True)
+	app.run(host="0.0.0.0", port=port, threaded=True)

@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html>
-	<body>
-		{% if status %}
-		<p>Alert: <span style="color: blue">enabled</span></p>
-		{% else %}
-		<p>Alert: <span style="color: green">disabled</span></p>
-		{% endif %}
-		<p>
-			<a href="/mode/on">Enable</a>
-			<a href="/mode/off">Disable</a>
-		</p>
-		<p>
-			<a href="/alert">Alert</a>
-		</p>
-	</body>
+
+<body>
+	{% if status %}
+	<p>Alert: <span style="color: blue">enabled</span></p>
+	{% else %}
+	<p>Alert: <span style="color: green">disabled</span></p>
+	{% endif %}
+	<p>
+		<a href="/mode/enable">enable</a>
+		<a href="/mode/disable">disable</a>
+	</p>
+	<p>
+		<a href="/alert/start">start</a>
+		<a href="/alert/stop">stop</a>
+	</p>
+</body>
+
 </html>
